@@ -1,0 +1,10 @@
+# .gitignore
+
+# Node.js modules
+node_modules/
+
+# 환경 변수 파일
+.env
+
+# 기타
+.DS_Store
