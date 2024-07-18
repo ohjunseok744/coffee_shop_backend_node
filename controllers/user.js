@@ -40,13 +40,16 @@ export const updateUser = async (req, res) => {
 
 // Delete User
 export const deleteUser = async (req, res) => {
-  try {
-    await User.findByIdAndDelete(req.params.id);
-    res.status(200).json("User has been deleted...");
-  } catch (err) {
-    res.status(500).json(err);
+  if (req.params.id === req.user.id) {
+    try {
+      await User.findOneAndDelete(req.user.id);
+      res.status(200).json("User has been deleted...");
+    } catch (err) {
+      res.status(500).json(err);
+    }
   }
 };
+
 
 // Get Single User
 export const getSingleUser = async (req, res) => {
@@ -58,6 +61,7 @@ export const getSingleUser = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
 
 // Get All Users
 export const getAllUsers = async (req, res) => {
@@ -71,14 +75,17 @@ export const getAllUsers = async (req, res) => {
     res.status(500).json(err);
   }
 };
-
-// Get User Stats
+//몇월에 몇명이 신청해쓴ㄴ지 알려줌
 export const getUserStats = async (req, res) => {
-  const today = new Date();
-  const lastYear = today.setFullYear(today.getFullYear() - 1);
+  const date = new Date();
+
+  const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
 
   try {
     const data = await User.aggregate([
+      {
+        $match: { createdAt: { $gte: lastYear } },
+      },
       {
         $project: {
           month: { $month: "$createdAt" },
