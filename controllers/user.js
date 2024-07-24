@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs'; // bcryptjs 라이브러리 가져오기
 
 // Update User
 export const updateUser = async (req, res) => {
-  if (req.params.id === req.user.id) {
+  if (req.params.id === req.user.id  || req.user.isAdmin) {
     try {
       const user = await User.findById(req.params.id);
       if (req.body.password) {
@@ -40,7 +40,7 @@ export const updateUser = async (req, res) => {
 
 // Delete User
 export const deleteUser = async (req, res) => {
-  if (req.params.id === req.user.id) {
+  if (req.params.id === req.user.id  || req.user.isAdmin) {
     try {
       await User.findOneAndDelete(req.user.id);
       res.status(200).json("User has been deleted...");

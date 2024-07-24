@@ -1,5 +1,5 @@
 import express from 'express';
-import { verifyToken, verifyTokenAdmin } from '../verifyToken.js';
+import { verifyToken, verifyTokenAdmin } from '../middleware/verifyToken.js';
 import { addCart, updateCart, deleteCart, getCart,getAllCarts } from '../controllers/cart.js';
 const router = express.Router();
 

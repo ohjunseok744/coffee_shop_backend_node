@@ -1,5 +1,5 @@
 import express from 'express';
-import { verifyToken, verifyTokenAdmin } from '../verifyToken.js'; // 올바른 경로로 수정
+import { verifyToken, verifyTokenAdmin } from '../middleware/verifyToken.js'; // 올바른 경로로 수정
 import { addOrder, updateOrder, deleteOrder, getSingleOrder, getAllOrders, getOrderIncome } from '../controllers/order.js'; // controllers/order 경로 확인
 
 const router = express.Router();

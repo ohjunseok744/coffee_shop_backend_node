@@ -1,16 +1,27 @@
-import express from "express";
-import mongoose from "mongoose";
-import dotenv from "dotenv";
+import express from 'express';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 import authRouter from './routes/auth.js';
 import userRouter from './routes/users.js';
 import cartRouter from './routes/carts.js';
 import orderRouter from './routes/orders.js';
 import productRouter from './routes/products.js';
 
-const app = express();
 dotenv.config();
+
+const app = express();
+
+// CORS 설정
+app.use(cors({
+  origin: 'http://localhost:5173', // 클라이언트 도메인
+  credentials: true, // 쿠키를 포함한 요청을 허용
+}));
+
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
@@ -20,7 +31,6 @@ mongoose.connect(process.env.MONGO_URI, {
   })
   .catch(err => console.log(err));
 
-app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 

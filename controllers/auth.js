@@ -37,7 +37,7 @@ export const login = async (req, res) => {
   try {
     // 사용자를 사용자 이름으로 찾기
     const user = await User.findOne({
-      username: req.body.username
+      email: req.body.email
     });
     
     // 사용자가 없으면 404 상태 코드와 메시지 반환
@@ -49,11 +49,11 @@ export const login = async (req, res) => {
 
     // 비밀번호를 제외한 사용자 정보와 JWT 토큰 생성
     const { password, ...userInfo } = user._doc;
-    const token = jwt.sign({ id: user._id }, process.env.JWT_KEY);
+    const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, process.env.JWT_KEY);
     res.cookie("access_token",token,{
       httpOnly:true,
     })    // 사용자 정보와 토큰 응답
-    .status(200).json(userInfo);
+    .status(200).json({ ...userInfo, token });
   } catch (err) {
     // 오류 발생 시 500 상태 코드와 메시지 반환
     res.status(500).json(err);
