@@ -14,26 +14,21 @@ const ProductSchema = new mongoose.Schema(
       type: String,       // 데이터 타입: 문자열
       required: true,     // 필수 입력 필드
     },
+    price:{
+      type:Number,
+      required :true,
+    },
     // 이미지 URL 필드
     img: {
       type: String,       // 데이터 타입: 문자열
       required: true, 
     },
     // 카테고리 필드
-    categories: {
-      type: Array,     // 데이터 타입: 문자열 배열
+    category: {
+      type: String,       // 데이터 타입: 문자열
+      required: true,     // 데이터 타입: 문자열 배열
     },
-    // 크기 필드
-    size: {
-      type: Array,       // 데이터 타입: 문자열
-    },
-    color:{
-      type:Array,
-    },
-    price:{
-      type:Number,
-      required :true,
-    },
+    
     inStock:{
       type:Boolean,
       default:true,
